@@ -1,0 +1,12 @@
+name: a-b_testing_data_cleaner
+title: A-B Testing Data Cleaner
+username:
+account: mmatsui
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 500971
+bundleId: 1630509
+url: https://mmatsui.shinyapps.io/a-b_testing_data_cleaner/
+when: 1539038170.18177
+asMultiple: FALSE
+asStatic: FALSE
