@@ -51,14 +51,15 @@ server <- function(input, output) {
     # create variables
     library(tidyr)
     mylog <<- separate(mylog, line, c("time", "app", "ab_testing", "version", "page_load_time", "click_time", "clicked_HTML_element_id", "session_ID"), " ")
-    mylog <<- mylog[c(-2, -3)]
+    mylog <<- mylog[c(-1, -2, -3)]
     
     # format timestamp
     library(stringr)
-    mylog$time <<- str_replace(mylog$time, "T", " ")
-    mylog$time <<- str_replace(mylog$time, fixed("+00:00"), "")
-    op <- options(digits.secs = 6)
-    mylog$time <<- as.POSIXct(mylog$time)
+    #mylog$time <<- str_replace(mylog$time, "T", " ")
+    #mylog$time <<- str_replace(mylog$time, fixed("+00:00"), "")
+    #op <- options(digits.secs = 6)
+    #mylog$time <<- as.POSIXct(mylog$time)
+    #mylog$time <<- as.numeric(mylog$time)
 
     return(mylog)
     
