@@ -1,5 +1,10 @@
-library(shiny)
+##### CS 130: A/B TESTING DATA CLEAN
+## converts .txt to .csv
+## removes unwanted columns
+## converts ISO timestamp to POSIXct for consistency
+## created 10/2018 by Maggie Matsui
 
+library(shiny)
 # Define UI for data upload app ----
 ui <- fluidPage(
   
@@ -27,7 +32,6 @@ ui <- fluidPage(
       tableOutput("contents")
       
     )
-    
   )
 )
 
@@ -45,21 +49,15 @@ server <- function(input, output) {
     req(input$uploaded_file) # check if file has been uploaded
     
     # read data
-    mylog <<- read.csv(input$uploaded_file$datapath, stringsAsFactors = FALSE)
-    names(mylog) <<- "line"
-    
+    mylog <<- read.csv(input$uploaded_file$datapath, stringsAsFactors = FALSE, skipNul = TRUE, col.names = "line")
+
     # create variables
     library(tidyr)
     mylog <<- separate(mylog, line, c("time", "app", "ab_testing", "version", "page_load_time", "click_time", "clicked_HTML_element_id", "session_ID"), " ")
-    mylog <<- mylog[c(-1, -2, -3)]
+    mylog <<- mylog[c(-2, -3)]
     
     # format timestamp
-    library(stringr)
-    #mylog$time <<- str_replace(mylog$time, "T", " ")
-    #mylog$time <<- str_replace(mylog$time, fixed("+00:00"), "")
-    #op <- options(digits.secs = 6)
-    #mylog$time <<- as.POSIXct(mylog$time)
-    #mylog$time <<- as.numeric(mylog$time)
+    mylog$time <- unclass(as.POSIXct(mylog$time, "UTC", "%Y-%m-%dT%H:%M:%S"))
 
     return(mylog)
     
@@ -78,5 +76,6 @@ server <- function(input, output) {
     )
   
 }
+
 # Run the app ----
 shinyApp(ui, server)
